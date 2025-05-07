@@ -1,11 +1,11 @@
 'use client';
 import Image from "next/image";
-import dynamic from "next/dynamic";
-import { useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react';
 import { PhantomWalletAdapter, SolflareWalletAdapter, TorusWalletAdapter } from '@solana/wallet-adapter-wallets';
 import '@solana/wallet-adapter-react-ui/styles.css';
+import React from 'react';
 
 const tabs = [
   { label: "Home" },
@@ -70,11 +70,9 @@ const sections = [
 
 const solanaNetwork = "https://api.mainnet-beta.solana.com";
 
-// Кастомный курсор и Intersection Observer для анимаций
+// Custom cursor and fade-in animation
 if (typeof window !== 'undefined') {
-  // Скрыть обычный курсор
   document.body.style.cursor = 'none';
-  // Курсор
   if (!document.getElementById('custom-cursor')) {
     const cursor = document.createElement('div');
     cursor.id = 'custom-cursor';
@@ -104,7 +102,6 @@ if (typeof window !== 'undefined') {
       });
     });
   }
-  // Intersection Observer для секций
   setTimeout(() => {
     const observer = new window.IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -128,7 +125,7 @@ export default function Home() {
     <ConnectionProvider endpoint={solanaNetwork}>
       <WalletProvider wallets={wallets} autoConnect>
         <div className="min-h-screen bg-zinc-950 text-zinc-200 font-sans relative overflow-x-hidden">
-          {/* Фоновый grid/noise */}
+          {/* Subtle grid background */}
           <div aria-hidden className="pointer-events-none fixed inset-0 z-0 opacity-40" style={{backgroundImage:'repeating-linear-gradient(90deg,#23272f 0 1px,transparent 1px 80px),repeating-linear-gradient(180deg,#23272f 0 1px,transparent 1px 80px)'}} />
           {/* Header */}
           <header className="flex items-center justify-between px-6 py-4 md:px-12 md:py-6 border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md animate-fadein" style={{animationDelay:'0.1s'}}>
@@ -191,9 +188,3 @@ export default function Home() {
     </ConnectionProvider>
   );
 }
-
-// Tailwind custom animation utilities (add to globals.css or tailwind.config.js):
-// .animate-gradient { background-size: 200% 200%; animation: gradientMove 3s ease-in-out infinite; }
-// @keyframes gradientMove { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
-// .animate-fadein { animation: fadeInUp 1s cubic-bezier(.4,0,.2,1) both; }
-// @keyframes fadeInUp { from{opacity:0;transform:translate3d(0,40px,0)} to{opacity:1;transform:none} }
